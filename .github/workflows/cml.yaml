@@ -30,6 +30,13 @@ jobs:
           # Run DVC
           dvc pull
           Rscript infer_network.R
+ 
+          # Install CML
+          npm init --yes
+          npm i @dvcorg/cml@latest
           # Write your CML report
-          echo "MODEL METRICS"
-          cat metrics.txt
+          echo "## Model Metrics" > report.md
+          cat metrics.txt >> report.md
+          echo "## Data visualization" >> report.md
+          npx cml-publish network_diagram.png --md >> report.md
+          npx cml-send-comment report.md
